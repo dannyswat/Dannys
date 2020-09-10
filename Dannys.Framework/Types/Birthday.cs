@@ -80,6 +80,11 @@ namespace Dannys.Framework
 			day = (byte)(value % 256);
 		}
 
+		public override string ToString()
+		{
+			return $"{Day?.ToString() ?? "D"}/{Month?.ToString() ?? "M"}/{yearToString() ?? "Y"}";
+		}
+
 		public override bool Equals(object obj)
 		{
 			if (obj != null && obj is Birthday)
@@ -123,16 +128,70 @@ namespace Dannys.Framework
 			}
 		}
 
+		string yearToString()
+		{
+			return Year.HasValue ? (Year > 0 ? Year.ToString() : (-Year).ToString() + "BC") : null;
+		}
+
 		void validateDate()
 		{
 			if (month > 12) throw new ArgumentOutOfRangeException("Month");
 			if (day > 31) throw new ArgumentOutOfRangeException("Day");
+			if (year == 0) throw new ArgumentOutOfRangeException("Year", "Year must not be 0");
 
 			if (month > 0 && day > 0)
 			{
-				int maxDay = DateTime.DaysInMonth(Year ?? 2000, month);
+				int maxDay = DaysInMonth(Year ?? -32767, month);
 				if (day > maxDay) throw new ArgumentOutOfRangeException("Day");
 			}
+		}
+
+		/// <summary>
+		/// DaysInMonth for larger date range
+		/// </summary>
+		/// <param name="year"></param>
+		/// <param name="month"></param>
+		/// <returns></returns>
+		public static int DaysInMonth(short year, byte month)
+		{
+			if (month > 12 || month < 1)
+				throw new ArgumentOutOfRangeException("month", "Month must be between 1 and 12.");
+			switch (month)
+			{
+				case 4:
+				case 6:
+				case 9:
+				case 11:
+					return 30;
+				case 2:
+					return IsLeapYear(year) ? 29 : 28;
+				default:
+					return 31;
+			}
+		}
+
+		/// <summary>
+		/// IsLeapYear for larger date range
+		/// </summary>
+		/// <param name="year"></param>
+		/// <returns></returns>
+		public static bool IsLeapYear(short year)
+		{
+			if (year == 0) throw new ArgumentOutOfRangeException("Year", "Year must not be 0");
+			if (year == -32767) return true;
+			if (year < 0) year = (short)(1 - year); // Adjustment for BC
+
+			if (year % 4 == 0)
+			{
+				if (year % 100 == 0)
+				{
+					return (year % 400 == 0);
+				}
+				else
+					return true;
+			}
+			else
+				return false;
 		}
 
 	}

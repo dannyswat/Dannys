@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Dannys.Framework.EFCore
 {
-    public class EntityDbConfiguration<TEntity, TKey, TUserKey> : IEntityTypeConfiguration<TEntity>
+    public abstract class EntityDbConfiguration<TEntity, TKey, TUserKey> : IEntityTypeConfiguration<TEntity>
         where TKey : struct, IEquatable<TKey>
         where TUserKey : struct, IEquatable<TUserKey>
         where TEntity : class, IEntity<TKey, TUserKey>

@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Dannys.Framework.EFCore</RootNamespace>
+    <Version>0.0.1</Version>
+    <Copyright>All rights reserved by Dannys Wat</Copyright>
+    <Description>Framework using EFCore SQL Server built on ASP.NET MVC Core for faster development</Description>
   </PropertyGroup>
 
   <ItemGroup>

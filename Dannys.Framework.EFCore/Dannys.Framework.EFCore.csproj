@@ -5,6 +5,7 @@
     <Version>0.0.1</Version>
     <Copyright>All rights reserved by Dannys Wat</Copyright>
     <Description>Framework using EF Core built on ASP.NET MVC Core for faster development</Description>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
